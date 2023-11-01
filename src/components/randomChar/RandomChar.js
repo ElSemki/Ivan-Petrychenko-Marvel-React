@@ -23,15 +23,15 @@ class RandomChar extends Component {
 		this.marvelService.getCharacter(id).then(this.onCharLoaded);
 	};
 
+	truncate = (str, n) => (str.length > n ? str.slice(0, n - 1) + '…' : str);
+
 	render() {
 		const {
 			char: { name, description, thumbnail, homepage, wiki },
 		} = this.state;
 
-		const cut = text => (text.length > 215 ? `${text.slice(0, 215)}…` : text);
-
 		const printDesc = description
-			? cut(description)
+			? this.truncate(description, 215)
 			: 'Информации о данном персонаже нет!';
 
 		return (
