@@ -1,51 +1,73 @@
-import abyss from '../../resources/img/abyss.jpg';
+import { Component } from 'react';
+import MarvelService from '../../services/MarvelService';
+import ErrorMessage from '../errorMessage/errorMessage';
+import Spinner from '../spinner/Spinner';
 import './charList.scss';
 
-const CharList = () => {
+class CharList extends Component {
+	state = {
+		characters: [],
+		loading: true,
+		error: false,
+	};
+
+	marvelService = new MarvelService();
+
+	onCharactersLoaded = characters =>
+		this.setState({ characters, loading: false });
+	onError = () => this.setState({ loading: false, error: true });
+
+	componentDidMount() {
+		this.marvelService
+			.getAllCharacters()
+			.then(this.onCharactersLoaded)
+			.catch(this.onError);
+	}
+
+	render() {
+		const { characters, loading, error } = this.state;
+		const errorMessage = error ? <ErrorMessage /> : null;
+		const spinner = loading ? <Spinner /> : null;
+		const content = !(loading || error) ? (
+			<View characters={characters} />
+		) : null;
+
+		return (
+			<div className="char__list">
+				{errorMessage}
+				{spinner}
+				{content}
+			</div>
+		);
+	}
+}
+
+const View = ({ characters }) => {
+	const cards = characters.map(({ id, name, thumbnail }) => {
+		const imgStyle = { objectFit: 'cover' };
+
+		if (
+			thumbnail ===
+			'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
+		) {
+			imgStyle.objectFit = 'fill';
+		}
+
+		return (
+			<li className="char__item" key={id}>
+				<img src={thumbnail} alt={name} style={imgStyle} />
+				<div className="char__name">{name}</div>
+			</li>
+		);
+	});
+
 	return (
-		<div className="char__list">
-			<ul className="char__grid">
-				<li className="char__item">
-					<img src={abyss} alt="abyss" />
-					<div className="char__name">Abyss</div>
-				</li>
-				<li className="char__item char__item_selected">
-					<img src={abyss} alt="abyss" />
-					<div className="char__name">Abyss</div>
-				</li>
-				<li className="char__item">
-					<img src={abyss} alt="abyss" />
-					<div className="char__name">Abyss</div>
-				</li>
-				<li className="char__item">
-					<img src={abyss} alt="abyss" />
-					<div className="char__name">Abyss</div>
-				</li>
-				<li className="char__item">
-					<img src={abyss} alt="abyss" />
-					<div className="char__name">Abyss</div>
-				</li>
-				<li className="char__item">
-					<img src={abyss} alt="abyss" />
-					<div className="char__name">Abyss</div>
-				</li>
-				<li className="char__item">
-					<img src={abyss} alt="abyss" />
-					<div className="char__name">Abyss</div>
-				</li>
-				<li className="char__item">
-					<img src={abyss} alt="abyss" />
-					<div className="char__name">Abyss</div>
-				</li>
-				<li className="char__item">
-					<img src={abyss} alt="abyss" />
-					<div className="char__name">Abyss</div>
-				</li>
-			</ul>
+		<>
+			<ul className="char__grid">{cards}</ul>
 			<button className="button button__main button__long">
 				<div className="inner">load more</div>
 			</button>
-		</div>
+		</>
 	);
 };
 
