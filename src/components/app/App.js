@@ -1,10 +1,10 @@
+import { Component } from 'react';
+import decoration from '../../resources/img/vision.png';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import AppHeader from '../appHeader/AppHeader';
 import CharInfo from '../charInfo/CharInfo';
 import CharList from '../charList/CharList';
 import RandomChar from '../randomChar/RandomChar';
-
-import { Component } from 'react';
-import decoration from '../../resources/img/vision.png';
 
 class App extends Component {
 	state = {
@@ -18,10 +18,16 @@ class App extends Component {
 			<div className="app">
 				<AppHeader />
 				<main>
-					<RandomChar />
+					<ErrorBoundary>
+						<RandomChar />
+					</ErrorBoundary>
 					<div className="char__content">
-						<CharList onCharSelected={this.charSelectedHandler} />
-						<CharInfo charId={this.state.selectedChar} />
+						<ErrorBoundary>
+							<CharList onCharSelected={this.charSelectedHandler} />
+						</ErrorBoundary>
+						<ErrorBoundary>
+							<CharInfo charId={this.state.selectedChar} />
+						</ErrorBoundary>
 					</div>
 					<img className="bg-decoration" src={decoration} alt="vision" />
 				</main>
