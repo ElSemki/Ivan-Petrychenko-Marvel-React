@@ -29,7 +29,10 @@ class CharList extends Component {
 		const errorMessage = error ? <ErrorMessage /> : null;
 		const spinner = loading ? <Spinner /> : null;
 		const content = !(loading || error) ? (
-			<View characters={characters} />
+			<View
+				characters={characters}
+				onCharSelected={this.props.onCharSelected}
+			/>
 		) : null;
 
 		return (
@@ -42,7 +45,7 @@ class CharList extends Component {
 	}
 }
 
-const View = ({ characters }) => {
+const View = ({ characters, onCharSelected }) => {
 	const cards = characters.map(({ id, name, thumbnail }) => {
 		const imgStyle = { objectFit: 'cover' };
 
@@ -54,7 +57,7 @@ const View = ({ characters }) => {
 		}
 
 		return (
-			<li className="char__item" key={id}>
+			<li className="char__item" key={id} onClick={() => onCharSelected(id)}>
 				<img src={thumbnail} alt={name} style={imgStyle} />
 				<div className="char__name">{name}</div>
 			</li>
