@@ -73,45 +73,75 @@ class CharList extends Component {
 	}
 }
 
-const View = ({
-	characters,
-	onCharSelected,
-	onRequest,
-	newItemLoading,
-	offset,
-	charEnded,
-}) => {
-	const cards = characters.map(({ id, name, thumbnail }) => {
-		const imgStyle = { objectFit: 'cover' };
+class View extends Component {
+	itemRefs = [];
+	setRef = ref => {
+		this.itemRefs.push(ref);
+	};
 
-		if (
-			thumbnail ===
-			'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
-		) {
-			imgStyle.objectFit = 'fill';
-		}
+	focusOnItem = index => {
+		this.itemRefs.forEach(item => item.classList.remove('char__item_selected'));
+		this.itemRefs[index].classList.add('char__item_selected');
+		this.itemRefs[index].focus();
+	};
+
+	render() {
+		const {
+			characters,
+			onCharSelected,
+			onRequest,
+			newItemLoading,
+			offset,
+			charEnded,
+		} = this.props;
+
+		const cards = characters.map(({ id, name, thumbnail }, i) => {
+			const imgStyle = { objectFit: 'cover' };
+
+			if (
+				thumbnail ===
+				'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
+			) {
+				imgStyle.objectFit = 'fill';
+			}
+
+			return (
+				<li
+					ref={this.setRef}
+					className="char__item"
+					key={id}
+					tabIndex={0}
+					onClick={() => {
+						onCharSelected(id);
+						this.focusOnItem(i);
+					}}
+					onKeyDown={e => {
+						if (e.key === ' ' || e.key === 'Enter') {
+							onCharSelected(id);
+							this.focusOnItem(i);
+						}
+					}}
+				>
+					<img src={thumbnail} alt={name} style={imgStyle} />
+					<div className="char__name">{name}</div>
+				</li>
+			);
+		});
 
 		return (
-			<li className="char__item" key={id} onClick={() => onCharSelected(id)}>
-				<img src={thumbnail} alt={name} style={imgStyle} />
-				<div className="char__name">{name}</div>
-			</li>
+			<>
+				<ul className="char__grid">{cards}</ul>
+				<button
+					className="button button__main button__long"
+					disabled={newItemLoading}
+					style={{ display: charEnded ? 'none' : 'block' }}
+					onClick={() => onRequest(offset)}
+				>
+					<div className="inner">load more</div>
+				</button>
+			</>
 		);
-	});
-
-	return (
-		<>
-			<ul className="char__grid">{cards}</ul>
-			<button
-				className="button button__main button__long"
-				disabled={newItemLoading}
-				style={{ display: charEnded ? 'none' : 'block' }}
-				onClick={() => onRequest(offset)}
-			>
-				<div className="inner">load more</div>
-			</button>
-		</>
-	);
-};
+	}
+}
 
 export default CharList;
