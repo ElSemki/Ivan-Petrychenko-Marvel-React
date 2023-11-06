@@ -1,36 +1,22 @@
 import { useEffect, useState } from 'react';
 import mjolnir from '../../resources/img/mjolnir.png';
-import MarvelService from '../../services/MarvelService';
+import useMarvelService from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/errorMessage';
 import Spinner from '../spinner/Spinner';
 import './randomChar.scss';
 
 const RandomChar = () => {
 	const [char, setChar] = useState({});
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(false);
-
-	const marvelService = new MarvelService();
-
-	const onCharLoading = () => {
-		setLoading(true);
-		setError(false);
-	};
+	const { loading, error, getCharacter, clearError } = useMarvelService();
 
 	const onCharLoaded = char => {
 		setChar(char);
-		setLoading(false);
-	};
-
-	const onError = () => {
-		setLoading(false);
-		setError(true);
 	};
 
 	const updateChar = () => {
+		clearError();
 		const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
-		onCharLoading();
-		marvelService.getCharacter(id).then(onCharLoaded).catch(onError);
+		getCharacter(id).then(onCharLoaded);
 	};
 
 	useEffect(() => updateChar(), []);
@@ -66,7 +52,9 @@ const View = ({ char }) => {
 
 	if (
 		thumbnail ===
-		'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
+			'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg' ||
+		thumbnail ===
+			'http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif'
 	) {
 		imgStyle.objectFit = 'contain';
 	}
