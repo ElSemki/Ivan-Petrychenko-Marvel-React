@@ -1,10 +1,6 @@
 import { useState } from 'react';
-import decoration from '../../resources/img/vision.png';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import AppHeader from '../appHeader/AppHeader';
-import CharInfo from '../charInfo/CharInfo';
-import CharList from '../charList/CharList';
-import RandomChar from '../randomChar/RandomChar';
+import ComicsList from '../comicsList/ComicsList';
 
 const App = () => {
 	const [selectedChar, setSelectedChar] = useState(null);
@@ -15,7 +11,7 @@ const App = () => {
 		<div className="app">
 			<AppHeader />
 			<main>
-				<ErrorBoundary>
+				{/* <ErrorBoundary>
 					<RandomChar />
 				</ErrorBoundary>
 				<div className="char__content">
@@ -26,7 +22,8 @@ const App = () => {
 						<CharInfo charId={selectedChar} />
 					</ErrorBoundary>
 				</div>
-				<img className="bg-decoration" src={decoration} alt="vision" />
+				<img className="bg-decoration" src={decoration} alt="vision" /> */}
+				<ComicsList />
 			</main>
 		</div>
 	);

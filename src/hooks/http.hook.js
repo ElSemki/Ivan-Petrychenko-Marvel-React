@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 export const useHttp = () => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
+	const [newItemLoading, setNewItemLoading] = useState(false);
 
 	const request = useCallback(
 		async (
@@ -34,6 +35,8 @@ export const useHttp = () => {
 	return {
 		loading,
 		error,
+		newItemLoading,
+		setNewItemLoading,
 		request,
 		clearError,
 	};

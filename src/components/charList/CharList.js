@@ -6,11 +6,16 @@ import './charList.scss';
 
 const CharList = ({ onCharSelected }) => {
 	const [characters, setCharacters] = useState([]);
-	const [newItemLoading, setNewItemLoading] = useState(false);
 	const [offset, setOffset] = useState(210);
 	const [charEnded, setCharEnded] = useState(false);
 
-	const { loading, error, getAllCharacters } = useMarvelService();
+	const {
+		loading,
+		error,
+		newItemLoading,
+		setNewItemLoading,
+		getAllCharacters,
+	} = useMarvelService();
 
 	const onCharactersLoaded = newCharacters => {
 		let ended = false;
