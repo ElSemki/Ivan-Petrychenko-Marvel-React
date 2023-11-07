@@ -31,40 +31,29 @@ const ComicsList = () => {
 
 	useEffect(() => onRequest(offset, true), []);
 
+	const renderComics = () => {
+		const comics = comicsList.map(({ title, thumbnail, price }, i) => (
+			<li key={i} className="comics__item">
+				<a href="#">
+					<img src={thumbnail} alt={title} className="comics__item-img" />
+					<div className="comics__item-name">{title}</div>
+					<div className="comics__item-price">{price}</div>
+				</a>
+			</li>
+		));
+
+		return <ul className="comics__grid">{comics}</ul>;
+	};
+
 	const errorMessage = error ? <ErrorMessage /> : null;
 	const spinner = loading && !newItemLoading ? <Spinner /> : null;
+	const items = renderComics();
 
 	return (
 		<div className="comics__list">
 			{errorMessage}
 			{spinner}
-			<View
-				comicsList={comicsList}
-				onRequest={onRequest}
-				newItemLoading={newItemLoading}
-				offset={offset}
-				comicsEnded={comicsEnded}
-			/>
-		</div>
-	);
-};
-
-const View = props => {
-	const { comicsList, onRequest, newItemLoading, offset, comicsEnded } = props;
-
-	const comics = comicsList.map(({ title, thumbnail, price }, i) => (
-		<li key={i} className="comics__item">
-			<a href="#">
-				<img src={thumbnail} alt={title} className="comics__item-img" />
-				<div className="comics__item-name">{title}</div>
-				<div className="comics__item-price">{price}</div>
-			</a>
-		</li>
-	));
-
-	return (
-		<>
-			<ul className="comics__grid">{comics}</ul>
+			{items}
 			<button
 				className="button button__main button__long"
 				disabled={newItemLoading}
@@ -73,7 +62,7 @@ const View = props => {
 			>
 				<div className="inner">load more</div>
 			</button>
-		</>
+		</div>
 	);
 };
 
