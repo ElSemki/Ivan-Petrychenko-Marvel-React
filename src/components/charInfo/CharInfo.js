@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import useMarvelService from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/errorMessage';
 import Skeleton from '../skeleton/Skeleton';
@@ -66,11 +67,14 @@ const View = ({ char }) => {
 			<div className="char__comics">Comics:</div>
 			{comics.length ? null : <p>There is no comics with this character</p>}
 			<ul className="char__comics-list">
-				{comics.map((item, i) => (
-					<li key={i} className="char__comics-item">
-						{item.name}
-					</li>
-				))}
+				{comics.map((item, i) => {
+					const comicId = item.resourceURI.split('/').at(-1);
+					return (
+						<li key={i} className="char__comics-item">
+							<Link to={`/comics/${comicId}`}>{item.name}</Link>
+						</li>
+					);
+				})}
 			</ul>
 		</>
 	);
