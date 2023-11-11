@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import useMarvelService from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/errorMessage';
 import Spinner from '../spinner/Spinner';
@@ -60,29 +61,35 @@ const CharList = ({ onCharSelected }) => {
 			}
 
 			return (
-				<li
-					ref={el => (itemRefs.current[i] = el)}
-					className="char__item"
-					key={id}
-					tabIndex={0}
-					onClick={() => {
-						onCharSelected(id);
-						focusOnItem(i);
-					}}
-					onKeyDown={e => {
-						if (e.key === ' ' || e.key === 'Enter') {
+				<CSSTransition key={id} timeout={500} classNames="char__item">
+					<li
+						ref={el => (itemRefs.current[i] = el)}
+						className="char__item"
+						key={id}
+						tabIndex={0}
+						onClick={() => {
 							onCharSelected(id);
 							focusOnItem(i);
-						}
-					}}
-				>
-					<img src={thumbnail} alt={name} style={imgStyle} />
-					<div className="char__name">{name}</div>
-				</li>
+						}}
+						onKeyDown={e => {
+							if (e.key === ' ' || e.key === 'Enter') {
+								onCharSelected(id);
+								focusOnItem(i);
+							}
+						}}
+					>
+						<img src={thumbnail} alt={name} style={imgStyle} />
+						<div className="char__name">{name}</div>
+					</li>
+				</CSSTransition>
 			);
 		});
 
-		return <ul className="char__grid">{cards}</ul>;
+		return (
+			<ul className="char__grid">
+				<TransitionGroup component={null}>{cards}</TransitionGroup>
+			</ul>
+		);
 	};
 
 	const errorMessage = error ? <ErrorMessage /> : null;
