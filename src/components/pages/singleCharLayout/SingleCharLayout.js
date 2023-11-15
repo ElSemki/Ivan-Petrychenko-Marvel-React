@@ -1,9 +1,7 @@
 import './singleChar.scss';
 
 const SingleCharLayout = ({ data }) => {
-	if (!data[0]) return null;
-
-	const { name, thumbnail, fullDescription } = data[0];
+	const { name, thumbnail, fullDescription } = data;
 
 	return (
 		<div className="single-char">

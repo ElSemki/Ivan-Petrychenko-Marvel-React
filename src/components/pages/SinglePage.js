@@ -9,7 +9,7 @@ const SingleChar = ({ Component, dataType }) => {
 	const { id } = useParams();
 	const [data, setData] = useState(null);
 
-	const { loading, error, getCharByName, getComic, clearError } =
+	const { loading, error, getCharacter, getComic, clearError } =
 		useMarvelService();
 
 	const onDataLoaded = data => setData(data);
@@ -23,13 +23,12 @@ const SingleChar = ({ Component, dataType }) => {
 				getComic(id).then(onDataLoaded);
 				break;
 			case 'character':
-				getCharByName(id).then(onDataLoaded);
+				getCharacter(id).then(onDataLoaded);
 				break;
 		}
 	}, [id]);
 
-	const errorMessage =
-		error || (Array.isArray(data) && !data.length) ? <ErrorMessage /> : null;
+	const errorMessage = error ? <ErrorMessage /> : null;
 	const spinner = loading ? <Spinner /> : null;
 	const content = !(loading || error || !data) ? (
 		<Component data={data} />

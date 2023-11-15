@@ -7,10 +7,10 @@ import Spinner from '../spinner/Spinner.js';
 const MainPage = lazy(() => import('../pages/MainPage'));
 const ComicsPage = lazy(() => import('../pages/ComicsPage'));
 const singleCharLayout = lazy(() =>
-	import('../pages/singleCharLayout/SingleCharLayout.js')
+	import('../pages/singleCharLayout/SingleCharLayout')
 );
 const singleComicLayout = lazy(() =>
-	import('../pages/singleComicLayout/SingleComicLayout.js')
+	import('../pages/singleComicLayout/SingleComicLayout')
 );
 const SinglePage = lazy(() => import('../pages/SinglePage'));
 const Page404 = lazy(() => import('../pages/404'));

@@ -36,7 +36,7 @@ const SearchCharForm = () => {
 			</span>
 			<Link
 				className="button button__secondary"
-				to={`/characters/${char[0].name}`}
+				to={`/characters/${char[0].id}`}
 			>
 				<div className="inner">To page</div>
 			</Link>
