@@ -9,9 +9,7 @@ const RandomChar = () => {
 	const [char, setChar] = useState({});
 	const { loading, error, getCharacter, clearError } = useMarvelService();
 
-	const onCharLoaded = char => {
-		setChar(char);
-	};
+	const onCharLoaded = char => setChar(char);
 
 	const updateChar = () => {
 		clearError();
