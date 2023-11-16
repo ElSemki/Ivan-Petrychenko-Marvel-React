@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import useMarvelService from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/errorMessage';
@@ -52,6 +52,7 @@ const CharList = ({ onCharSelected }) => {
 			.then(() => setProcess('confirmed'));
 	};
 
+	// eslint-disable-next-line
 	useEffect(() => onRequest(offset, true), []);
 
 	const itemRefs = useRef([]);
@@ -109,9 +110,15 @@ const CharList = ({ onCharSelected }) => {
 		);
 	};
 
+	const elements = useMemo(
+		() => setContent(process, renderChars, newItemLoading),
+		// eslint-disable-next-line
+		[process]
+	);
+
 	return (
 		<div className="char__list">
-			{setContent(process, () => renderChars(), newItemLoading)}
+			{elements}
 			<button
 				className="button button__main button__long"
 				disabled={newItemLoading}

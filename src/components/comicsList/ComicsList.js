@@ -52,6 +52,7 @@ const ComicsList = () => {
 			.then(() => setProcess('confirmed'));
 	};
 
+	// eslint-disable-next-line
 	useEffect(() => onRequest(offset, true), []);
 
 	const renderComics = () => {
@@ -70,7 +71,7 @@ const ComicsList = () => {
 
 	return (
 		<div className="comics__list">
-			{setContent(process, () => renderComics(), newItemLoading)}
+			{setContent(process, renderComics, newItemLoading)}
 			<button
 				className="button button__main button__long"
 				disabled={newItemLoading}

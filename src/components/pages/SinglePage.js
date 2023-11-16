@@ -29,6 +29,7 @@ const SingleChar = ({ Component, dataType }) => {
 					.then(() => setProcess('confirmed'));
 				break;
 		}
+		// eslint-disable-next-line
 	}, [id]);
 
 	return (

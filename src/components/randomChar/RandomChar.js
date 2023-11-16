@@ -18,6 +18,7 @@ const RandomChar = () => {
 			.then(() => setProcess('confirmed'));
 	};
 
+	// eslint-disable-next-line
 	useEffect(() => updateChar(), []);
 
 	return (

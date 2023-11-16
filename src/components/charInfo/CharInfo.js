@@ -18,6 +18,7 @@ const CharInfo = ({ charId }) => {
 		getCharacter(charId)
 			.then(onCharLoaded)
 			.then(() => setProcess('confirmed'));
+		// eslint-disable-next-line
 	}, [charId]);
 
 	return <div className="char__info">{setContent(process, View, char)}</div>;
